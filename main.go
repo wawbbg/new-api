@@ -24,8 +24,11 @@ func main() {
 	logger.SysLog(fmt.Sprintf("New API %s started", common.Version))
 
 	// Set Gin mode based on environment
-	// NOTE: defaulting to debug mode locally for easier development
-	if os.Getenv("GIN_MODE") == "release" {
+	// Default to release mode for better performance; set GIN_MODE=debug to override
+	ginMode := os.Getenv("GIN_MODE")
+	if ginMode == "debug" {
+		gin.SetMode(gin.DebugMode)
+	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
