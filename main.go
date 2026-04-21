@@ -46,6 +46,7 @@ func main() {
 	}
 
 	// Initialize cache (Redis or in-memory)
+	// Note: Redis errors are non-fatal; the app falls back to in-memory cache gracefully
 	err = common.InitRedisClient()
 	if err != nil {
 		logger.SysLog(fmt.Sprintf("Redis not available, using in-memory cache: %s", err.Error()))
@@ -68,7 +69,7 @@ func main() {
 	// Register all routes
 	router.SetRouter(engine)
 
-	// Determine port
+	// Determine port — prefer PORT env var, fall back to config value (default: 3000)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = strconv.Itoa(config.Port)
