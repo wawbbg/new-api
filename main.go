@@ -70,6 +70,8 @@ func main() {
 	router.SetRouter(engine)
 
 	// Determine port — prefer PORT env var, fall back to config value (default: 3000)
+	// Personal note: I run this locally on 3001 to avoid conflicts with other services,
+	// so I typically set PORT=3001 in my .env file.
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = strconv.Itoa(config.Port)
